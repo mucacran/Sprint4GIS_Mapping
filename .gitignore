@@ -27,3 +27,9 @@ Thumbs.db
 
 # Optional local config
 *.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

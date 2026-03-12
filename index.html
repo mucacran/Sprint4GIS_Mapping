@@ -35,11 +35,25 @@
       The map initializes automatically when the page opens.
     -->
     <script type="module">
-      // API key placeholder requested in the prompt:
-      // const API_KEY =(archivo .env);
+      // The API key is loaded from a backend endpoint that reads the .env file.
+      // This avoids hardcoding the key directly in this HTML file.
+      async function loadApiKey() {
+        const response = await fetch("/config");
 
-      // Put your real key here (for example, read from your .env in your backend workflow).
-      const API_KEY = "PASTE_YOUR_ARCGIS_API_KEY_HERE";
+        if (!response.ok) {
+          throw new Error("Could not load API key from server.");
+        }
+
+        const data = await response.json();
+
+        if (!data.apiKey) {
+          throw new Error("API key is missing in server response.");
+        }
+
+        return data.apiKey;
+      }
+
+      const API_KEY = await loadApiKey();
 
       // Import ArcGIS modules using the modern CDN module loader.
       const [Map, MapView, esriConfig] = await Promise.all([
