@@ -1,43 +1,54 @@
-# Project Title (Update)
+# CSE310 GIS Mapping Project
 
-Add a description of your project here.
+Proyecto introductorio de ArcGIS JavaScript API con backend Flask.
+El frontend usa ES Modules (import/export) y se puede empaquetar con Vite en un unico archivo final.
 
-## Instructions for Build and Use
+## Instrucciones De Ejecucion
 
-[Software Demo](Put_Your_Video_Link_Here)
+### Opcion 1: Desarrollo simple con Flask
 
-Steps to build and/or run the software:
+1. Instalar dependencias Python:
+	`pip install -r requirements.txt`
+2. Ejecutar backend:
+	`python app.py`
+3. Abrir en navegador:
+	`http://127.0.0.1:5000`
 
-1. First step here
-2.
-3.
+### Opcion 2: Build final con Vite (single file)
 
-Instructions for using the software:
+1. Instalar dependencias Node:
+	`npm install`
+2. Generar build final:
+	`npm run build`
+3. Reiniciar Flask para que detecte `dist/index.html`:
+	`python app.py`
 
-1. First step here
-2.
-3.
+## Estructura Del Proyecto
 
-## Development Environment
+* `index.html`: entrada de la pagina.
+* `js/main.js`: flujo principal de la app.
+* `js/api-key.js`: carga API key desde `/config`.
+* `js/lugares.js`: datos de lugares.
+* `js/lugares-layer.js`: dibuja marcadores y popups.
+* `app.py`: backend Flask y endpoint `/config`.
+* `dist/index.html`: build final en un solo archivo (generado por Vite).
 
-To recreate the development environment, you need the following software and/or libraries with the specified versions:
+## Entorno De Desarrollo
 
-* First thing here
-*
-*
+* Python 3.12+
+* Flask
+* python-dotenv
+* Node.js 20+
+* Vite 5
 
-## Useful Websites to Learn More
+## Sitios Utiles
 
-I found these websites useful in developing this software:
+* [ArcGIS Maps SDK for JavaScript](https://developers.arcgis.com/javascript/latest/)
+* [Flask Documentation](https://flask.palletsprojects.com/)
+* [Vite Guide](https://vitejs.dev/guide/)
 
-* [Website Title](Link)
-*
-*
+## Trabajo Futuro
 
-## Future Work
-
-The following items I plan to fix, improve, and/or add to this project in the future:
-
-* [ ] First thing here
-* [ ]
-* [ ]
+* [ ] Agregar filtros de lugares por categoria.
+* [ ] Agregar estilos distintos por tipo de punto.
+* [ ] Mostrar lista lateral de lugares con zoom al seleccionar.
