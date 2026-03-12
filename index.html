@@ -11,17 +11,8 @@
       href="https://js.arcgis.com/4.31/esri/themes/light/main.css"
     />
 
-    <style>
-      /* Make the map fill the entire browser window */
-      html,
-      body,
-      #viewDiv {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
+    <!-- Project styles -->
+    <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
     <!-- This is the container where the ArcGIS map will be drawn -->
@@ -30,69 +21,10 @@
     <!-- ArcGIS JavaScript API (official CDN) -->
     <script src="https://js.arcgis.com/4.31/"></script>
 
-    <!--
-      Classic beginner-friendly ArcGIS API pattern:
-      1) Fetch API key from Flask backend (/config)
-      2) Load ArcGIS modules with require()
-      3) Create map and view
-    -->
-    <script>
-      // Fetch API key from the backend endpoint that reads values from .env.
-      function loadApiKey() {
-        return fetch("/config")
-          .then(function (response) {
-            if (!response.ok) {
-              throw new Error("Could not load API key from server.");
-            }
-            return response.json();
-          })
-          .then(function (data) {
-            if (!data.apiKey) {
-              throw new Error("API key is missing in server response.");
-            }
-            return data.apiKey;
-          });
-      }
-
-      // Start the app when the key is available.
-      loadApiKey()
-        .then(function (apiKey) {
-          // Traditional AMD module loading with require().
-          require([
-            "esri/config",
-            "esri/Map",
-            "esri/views/MapView",
-            "esri/Graphic",
-            "esri/layers/GraphicsLayer"
-          ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
-            // Apply API key for ArcGIS basemaps and services.
-            esriConfig.apiKey = apiKey;
-
-            // Create the map using the required basemap.
-            var map = new Map({
-              basemap: "streets-navigation-vector"
-            });
-
-            const graphicsLayer = new GraphicsLayer();
-            map.add(graphicsLayer);
-
-            // Create the view centered on Guayaquil, Ecuador.
-            var view = new MapView({
-              container: "viewDiv",
-              map: map,
-              center: [-79.8891, -2.170998],
-              zoom: 12
-            });
-
-            // Optional: expose the view for quick debugging in browser console.
-            window.view = view;
-          });
-        })
-        .catch(function (error) {
-          console.error("Map initialization failed:", error);
-          document.getElementById("viewDiv").innerHTML =
-            "<p style='padding:16px;font-family:Arial,sans-serif;'>Error loading map. Check /config and API key setup.</p>";
-        });
-    </script>
+    <!-- Project scripts (kept separate for beginner-friendly structure) -->
+    <script src="js/app-config.js"></script>
+    <script src="js/api-key.service.js"></script>
+    <script src="js/map-app.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
