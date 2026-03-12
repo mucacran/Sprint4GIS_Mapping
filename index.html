@@ -61,8 +61,10 @@
           require([
             "esri/config",
             "esri/Map",
-            "esri/views/MapView"
-          ], function (esriConfig, Map, MapView) {
+            "esri/views/MapView",
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer"
+          ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
             // Apply API key for ArcGIS basemaps and services.
             esriConfig.apiKey = apiKey;
 
@@ -70,6 +72,9 @@
             var map = new Map({
               basemap: "streets-navigation-vector"
             });
+
+            const graphicsLayer = new GraphicsLayer();
+            map.add(graphicsLayer);
 
             // Create the view centered on Guayaquil, Ecuador.
             var view = new MapView({
