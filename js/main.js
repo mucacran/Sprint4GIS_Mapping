@@ -17,59 +17,6 @@
       "<p style='padding:16px;font-family:Arial,sans-serif;'>" + mensaje + "</p>";
   }
 
-  // Pide la API key al backend Flask (lee la variable desde .env).
-  function cargarApiKey() {
-    return fetch("/config")
-      .then(function (respuesta) {
-        if (!respuesta.ok) {
-          throw new Error("No se pudo obtener la API key desde /config");
-        }
-        return respuesta.json();
-      })
-      .then(function (datos) {
-        if (!datos.apiKey) {
-          throw new Error("La API key no llego en la respuesta del servidor");
-        }
-        return datos.apiKey;
-      });
-  }
-
-  // Agrega al mapa todos los lugares definidos en window.LUGARES.
-  function agregarLugares(graphicsLayer, Graphic) {
-    var lugares = window.LUGARES || [];
-
-    lugares.forEach(function (lugar) {
-      var punto = {
-        type: "point",
-        longitude: lugar.coordenadas[0],
-        latitude: lugar.coordenadas[1]
-      };
-
-      var simbolo = {
-        type: "simple-marker",
-        color: "#e63946",
-        size: 9,
-        outline: {
-          color: "#ffffff",
-          width: 1.5
-        }
-      };
-
-      var popup = {
-        title: lugar.nombre,
-        content: lugar.descripcion
-      };
-
-      var grafico = new Graphic({
-        geometry: punto,
-        symbol: simbolo,
-        popupTemplate: popup
-      });
-
-      graphicsLayer.add(grafico);
-    });
-  }
-
   // Crea y muestra el mapa usando el patron clasico de ArcGIS (require).
   function crearMapa(apiKey) {
     require([
@@ -99,16 +46,16 @@
         zoom: MAP_ZOOM
       });
 
-      // Agregamos los puntos de lugares desde js/lugares.js.
-      agregarLugares(capaLugares, Graphic);
+      // Agregamos los puntos de lugares usando el modulo separado.
+      window.LugaresLayer.agregar(capaLugares, Graphic);
 
       // Variable util para probar cosas desde la consola del navegador.
       window.view = vista;
     });
   }
 
-  // Flujo principal: primero key, luego mapa.
-  cargarApiKey()
+  // Flujo principal: primero key (desde js/api-key.js), luego mapa.
+  window.ApiKey.cargar()
     .then(function (apiKey) {
       crearMapa(apiKey);
     })
