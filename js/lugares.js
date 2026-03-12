@@ -1,6 +1,6 @@
 // Lista de lugares turisticos e historicos de Ecuador.
-// Se guarda en un archivo aparte para mantener el proyecto ordenado.
-window.LUGARES = [
+// Se exporta para usarla desde main.js con import.
+export const lugares = [
   {
     nombre: "Malecon 2000",
     descripcion: "Famous waterfront promenade in Guayaquil",

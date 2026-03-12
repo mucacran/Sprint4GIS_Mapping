@@ -1,66 +1,66 @@
-// Este archivo hace todo el flujo principal de forma simple:
-// 1) Pedir la API key al backend (/config)
-// 2) Cargar modulos ArcGIS con require()
-// 3) Dibujar el mapa en Guayaquil
-// 4) Agregar lugares definidos en js/lugares.js
-(function () {
-  // Configuracion basica del mapa.
-  var MAP_CONTAINER_ID = "viewDiv";
-  var MAP_CENTER_GUAYAQUIL = [-79.8891, -2.170998];
-  var MAP_ZOOM = 12;
-  var MAP_BASEMAP = "streets-navigation-vector";
+import { cargarApiKey } from "./api-key.js";
+import { lugares } from "./lugares.js";
+import { agregarLugares } from "./lugares-layer.js";
 
-  // Muestra un mensaje de error dentro del contenedor del mapa.
-  function mostrarError(mensaje) {
-    var contenedor = document.getElementById(MAP_CONTAINER_ID);
-    contenedor.innerHTML =
-      "<p style='padding:16px;font-family:Arial,sans-serif;'>" + mensaje + "</p>";
-  }
+// Archivo principal con imports ES Modules.
+// main.js coordina el flujo y los demas archivos se enfocan en una sola tarea.
 
-  // Crea y muestra el mapa usando el patron clasico de ArcGIS (require).
-  function crearMapa(apiKey) {
-    require([
-      "esri/config",
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/Graphic",
-      "esri/layers/GraphicsLayer"
-    ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
-      // Asignamos la API key para que ArcGIS cargue servicios y mapa base.
-      esriConfig.apiKey = apiKey;
+// Configuracion basica del mapa.
+const MAP_CONTAINER_ID = "viewDiv";
+const MAP_CENTER_GUAYAQUIL = [-79.8891, -2.170998];
+const MAP_ZOOM = 12;
+const MAP_BASEMAP = "streets-navigation-vector";
 
-      // Creamos el mapa base.
-      var mapa = new Map({
-        basemap: MAP_BASEMAP
-      });
+// Muestra un mensaje de error dentro del contenedor del mapa.
+function mostrarError(mensaje) {
+  const contenedor = document.getElementById(MAP_CONTAINER_ID);
+  contenedor.innerHTML =
+    "<p style='padding:16px;font-family:Arial,sans-serif;'>" + mensaje + "</p>";
+}
 
-      // Capa para dibujar marcadores personalizados.
-      var capaLugares = new GraphicsLayer();
-      mapa.add(capaLugares);
+// Crea y muestra el mapa usando el patron clasico de ArcGIS (require).
+function crearMapa(apiKey) {
+  window.require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+  ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+    // Asignamos la API key para que ArcGIS cargue servicios y mapa base.
+    esriConfig.apiKey = apiKey;
 
-      // Creamos la vista centrada en Guayaquil.
-      var vista = new MapView({
-        container: MAP_CONTAINER_ID,
-        map: mapa,
-        center: MAP_CENTER_GUAYAQUIL,
-        zoom: MAP_ZOOM
-      });
-
-      // Agregamos los puntos de lugares usando el modulo separado.
-      window.LugaresLayer.agregar(capaLugares, Graphic);
-
-      // Variable util para probar cosas desde la consola del navegador.
-      window.view = vista;
+    // Creamos el mapa base.
+    var mapa = new Map({
+      basemap: MAP_BASEMAP
     });
-  }
 
-  // Flujo principal: primero key (desde js/api-key.js), luego mapa.
-  window.ApiKey.cargar()
-    .then(function (apiKey) {
-      crearMapa(apiKey);
-    })
-    .catch(function (error) {
-      console.error("Error al iniciar el mapa:", error);
-      mostrarError("Error cargando el mapa. Revisa /config y tu API key.");
+    // Capa para dibujar marcadores personalizados.
+    var capaLugares = new GraphicsLayer();
+    mapa.add(capaLugares);
+
+    // Creamos la vista centrada en Guayaquil.
+    var vista = new MapView({
+      container: MAP_CONTAINER_ID,
+      map: mapa,
+      center: MAP_CENTER_GUAYAQUIL,
+      zoom: MAP_ZOOM
     });
-})();
+
+    // Agregamos los puntos de lugares desde el modulo de datos.
+    agregarLugares(capaLugares, Graphic, lugares);
+
+    // Variable util para probar cosas desde la consola del navegador.
+    window.view = vista;
+  });
+}
+
+// Flujo principal: primero key, luego mapa.
+cargarApiKey()
+  .then(function (apiKey) {
+    crearMapa(apiKey);
+  })
+  .catch(function (error) {
+    console.error("Error al iniciar el mapa:", error);
+    mostrarError("Error cargando el mapa. Revisa /config y tu API key.");
+  });
