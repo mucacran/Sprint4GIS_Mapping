@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSE310 - Beginner GIS Map (Guayaquil)</title>
+
+    <!-- ArcGIS JavaScript API styles (official CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.31/esri/themes/light/main.css"
+    />
+
+    <style>
+      /* Make the map fill the entire browser window */
+      html,
+      body,
+      #viewDiv {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- This is the container where the ArcGIS map will be drawn -->
+    <div id="viewDiv"></div>
+
+    <!-- ArcGIS JavaScript API (official CDN) -->
+    <script src="https://js.arcgis.com/4.31/"></script>
+
+    <!--
+      Modern ArcGIS pattern using ES modules + $arcgis.import.
+      The map initializes automatically when the page opens.
+    -->
+    <script type="module">
+      // API key placeholder requested in the prompt:
+      // const API_KEY =(archivo .env);
+
+      // Put your real key here (for example, read from your .env in your backend workflow).
+      const API_KEY = "PASTE_YOUR_ARCGIS_API_KEY_HERE";
+
+      // Import ArcGIS modules using the modern CDN module loader.
+      const [Map, MapView, esriConfig] = await Promise.all([
+        $arcgis.import("@arcgis/core/Map.js"),
+        $arcgis.import("@arcgis/core/views/MapView.js"),
+        $arcgis.import("@arcgis/core/config.js")
+      ]);
+
+      // Apply your API key so basemaps and services can load.
+      esriConfig.apiKey = API_KEY;
+
+      // Create a basemap.
+      const map = new Map({
+        basemap: "streets-navigation-vector"
+      });
+
+      // Create the map view centered on Guayaquil, Ecuador.
+      const view = new MapView({
+        container: "viewDiv",
+        map,
+        center: [-79.8891, -2.170998],
+        zoom: 12
+      });
+
+      // Optional: expose view in console for learning/debugging.
+      window.view = view;
+    </script>
+  </body>
+</html>
