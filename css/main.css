@@ -40,3 +40,25 @@ body,
   background: #e63946;
   color: white;
 }
+
+/*******************************************
+  * Map title styles
+  *******************************************/
+#mapTitle{
+position:absolute;
+top:10px;
+left:50%;
+transform:translateX(-50%);
+z-index:20;
+
+background:white;
+padding:8px 16px;
+
+font-family:Arial, sans-serif;
+font-size:18px;
+font-weight:bold;
+
+border-radius:6px;
+
+box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}

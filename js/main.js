@@ -19,11 +19,19 @@ function mostrarError(mensaje) {
     "<p style='padding:16px;font-family:Arial,sans-serif;'>" + mensaje + "</p>";
 }
 
+document.querySelectorAll("#filterBar button")
+  .forEach(b => b.classList.remove("active"));
+
 function conectarBotonesFiltro(capaLugares, Graphic) {
   var botones = document.querySelectorAll("#filterBar button");
 
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () {
+      botones.forEach(function (b) {
+        b.classList.remove("active");
+      });
+      boton.classList.add("active");
+
       var region = boton.dataset.region || "All";
       var filtrados = filtrarPorRegion(lugares, region);
 
@@ -54,8 +62,8 @@ function crearMapa(apiKey) {
 
     // Capa para dibujar marcadores personalizados.
     var capaLugares = new GraphicsLayer({
-  title: "Tourist Places in Ecuador"
-});
+      title: "Tourist Places in Ecuador"
+    });
     mapa.add(capaLugares);
 
     // Creamos la vista centrada en Guayaquil.
