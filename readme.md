@@ -1,54 +1,69 @@
-# CSE310 GIS Mapping Project
+# Project Title (Update)
 
-Proyecto introductorio de ArcGIS JavaScript API con backend Flask.
-El frontend usa ES Modules (import/export) y se puede empaquetar con Vite en un unico archivo final.
+**Ecuador Tourist Map – ArcGIS GIS Mapping Project**
 
-## Instrucciones De Ejecucion
+This project is an interactive tourist map of Ecuador developed using the ArcGIS JavaScript API.
+The application displays more than 20 tourist locations across Ecuador, including places in the Coast, Andes, Amazon, and Galápagos regions.
 
-### Opcion 1: Desarrollo simple con Flask
+Each location is represented with a marker on the map. When the user clicks on a marker, a popup window appears displaying an image, description, and geographic coordinates of the location.
 
-1. Instalar dependencias Python:
-	`pip install -r requirements.txt`
-2. Ejecutar backend:
-	`python app.py`
-3. Abrir en navegador:
-	`http://127.0.0.1:5000`
+The application also includes interactive GIS features such as map widgets, region filtering, and location search.
 
-### Opcion 2: Build final con Vite (single file)
+## Instructions for Build and Use
 
-1. Instalar dependencias Node:
-	`npm install`
-2. Generar build final:
-	`npm run build`
-3. Reiniciar Flask para que detecte `dist/index.html`:
-	`python app.py`
+[Software Demo](Put_Your_Video_Link_Here)
 
-## Estructura Del Proyecto
+Steps to build and/or run the software:
 
-* `index.html`: entrada de la pagina.
-* `js/main.js`: flujo principal de la app.
-* `js/api-key.js`: carga API key desde `/config`.
-* `js/lugares.js`: datos de lugares.
-* `js/lugares-layer.js`: dibuja marcadores y popups.
-* `app.py`: backend Flask y endpoint `/config`.
-* `dist/index.html`: build final en un solo archivo (generado por Vite).
+1. Clone or download the project repository.
+2. Install the required Python packages using the requirements.txt file.
+3. Run the Flask server using the command:
 
-## Entorno De Desarrollo
+```
+python app.py
+```
 
-* Python 3.12+
+4. Open a web browser and go to:
+
+```
+http://127.0.0.1:5000
+```
+
+The map application will load and display the interactive tourist map of Ecuador.
+
+Instructions for using the software:
+
+1. Use the interactive map to explore tourist locations across Ecuador.
+2. Click on any marker to open a popup with information about the location.
+3. Use the filter buttons to show locations by region (Coast, Andes, Amazon, or Galápagos).
+4. Use the Search widget to quickly navigate to cities or geographic locations.
+5. Use the LayerList widget to toggle the visibility of map layers.
+
+## Development Environment
+
+To recreate the development environment, you need the following software and/or libraries with the specified versions:
+
+* Python 3.x
 * Flask
 * python-dotenv
-* Node.js 20+
-* Vite 5
+* ArcGIS JavaScript API (v4.x)
+* Visual Studio Code
 
-## Sitios Utiles
+## Useful Websites to Learn More
 
-* [ArcGIS Maps SDK for JavaScript](https://developers.arcgis.com/javascript/latest/)
+I found these websites useful in developing this software:
+
+* [ArcGIS JavaScript API Documentation](https://developers.arcgis.com/javascript/)
+* [ArcGIS Developers Tutorials](https://developers.arcgis.com/javascript/latest/tutorials/)
 * [Flask Documentation](https://flask.palletsprojects.com/)
-* [Vite Guide](https://vitejs.dev/guide/)
+* [MDN Web Docs - JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-## Trabajo Futuro
+## Future Work
 
-* [ ] Agregar filtros de lugares por categoria.
-* [ ] Agregar estilos distintos por tipo de punto.
-* [ ] Mostrar lista lateral de lugares con zoom al seleccionar.
+The following items I plan to fix, improve, and/or add to this project in the future:
+
+* [ ] Add more tourist locations across Ecuador.
+* [ ] Improve the user interface design and styling.
+* [ ] Add different map layers such as terrain or satellite view.
+* [ ] Implement advanced filtering options for categories of locations.
+* [ ] Deploy the application to a public hosting service.
