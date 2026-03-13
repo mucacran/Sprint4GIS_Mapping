@@ -25,8 +25,10 @@ function crearMapa(apiKey) {
     "esri/Map",
     "esri/views/MapView",
     "esri/Graphic",
-    "esri/layers/GraphicsLayer"
-  ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+    "esri/layers/GraphicsLayer",
+    "esri/widgets/LayerList",
+    "esri/widgets/Home"
+  ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, LayerList, Home) {
     // Asignamos la API key para que ArcGIS cargue servicios y mapa base.
     esriConfig.apiKey = apiKey;
 
@@ -36,7 +38,9 @@ function crearMapa(apiKey) {
     });
 
     // Capa para dibujar marcadores personalizados.
-    var capaLugares = new GraphicsLayer();
+    var capaLugares = new GraphicsLayer({
+  title: "Tourist Places in Ecuador"
+});
     mapa.add(capaLugares);
 
     // Creamos la vista centrada en Guayaquil.
@@ -46,6 +50,12 @@ function crearMapa(apiKey) {
       center: MAP_CENTER_GUAYAQUIL,
       zoom: MAP_ZOOM
     });
+
+    // Widget para mostrar y controlar capas en la vista.
+    var layerList = new LayerList({
+      view: vista
+    });
+    vista.ui.add(layerList, "top-right");
 
     // Agregamos los puntos de lugares desde el modulo de datos.
     agregarLugares(capaLugares, Graphic, lugares);
