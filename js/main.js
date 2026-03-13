@@ -3,8 +3,24 @@ import { lugares } from "./lugares.js";
 import { agregarLugares } from "./lugares-layer.js";
 import { filtrarPorRegion } from "./filtrar.js";
 
-// Archivo principal con imports ES Modules.
-// main.js coordina el flujo y los demas archivos se enfocan en una sola tarea.
+/*
+  Project: CSE310 GIS Mapping Project
+  Purpose:
+  Main orchestration file for a beginner ArcGIS JavaScript API application that
+  loads Ecuador tourist locations and renders them on an interactive map.
+
+  Main Features:
+  - Loads ArcGIS API key from backend configuration.
+  - Initializes map and view centered in Ecuador.
+  - Creates and manages a graphics layer for tourist points.
+  - Draws tourist locations with popup information.
+  - Adds UI widgets (LayerList, Home, Search).
+  - Connects a region-based filter bar to redraw map graphics.
+*/
+
+// -----------------------------------------------------------------------------
+// 1. Load API key
+// -----------------------------------------------------------------------------
 
 // Configuracion basica del mapa.
 const MAP_CONTAINER_ID = "viewDiv";
@@ -22,16 +38,23 @@ function mostrarError(mensaje) {
 document.querySelectorAll("#filterBar button")
   .forEach(b => b.classList.remove("active"));
 
+// -----------------------------------------------------------------------------
+// 6. Filter system
+// -----------------------------------------------------------------------------
+
+// Conecta eventos click de la barra y aplica filtro por region.
 function conectarBotonesFiltro(capaLugares, Graphic) {
   var botones = document.querySelectorAll("#filterBar button");
 
   botones.forEach(function (boton) {
     boton.addEventListener("click", function () {
+      // Limpia estado visual anterior y marca el filtro activo.
       botones.forEach(function (b) {
         b.classList.remove("active");
       });
       boton.classList.add("active");
 
+      // Filtra datos segun region seleccionada y vuelve a dibujar capa.
       var region = boton.dataset.region || "All";
       var filtrados = filtrarPorRegion(lugares, region);
 
@@ -43,6 +66,11 @@ function conectarBotonesFiltro(capaLugares, Graphic) {
 
 // Crea y muestra el mapa usando el patron clasico de ArcGIS (require).
 function crearMapa(apiKey) {
+  // ---------------------------------------------------------------------------
+  // 2. Initialize map
+  // ---------------------------------------------------------------------------
+
+  // Carga modulos ArcGIS necesarios para mapa, capa, vista y widgets.
   window.require([
     "esri/config",
     "esri/Map",
@@ -61,6 +89,10 @@ function crearMapa(apiKey) {
       basemap: MAP_BASEMAP
     });
 
+    // -------------------------------------------------------------------------
+    // 3. Create graphics layer
+    // -------------------------------------------------------------------------
+
     // Capa para dibujar marcadores personalizados.
     var capaLugares = new GraphicsLayer({
       title: "Tourist Places in Ecuador"
@@ -74,6 +106,10 @@ function crearMapa(apiKey) {
       center: MAP_CENTER_GUAYAQUIL,
       zoom: MAP_ZOOM
     });
+
+    // -------------------------------------------------------------------------
+    // 5. Add map widgets
+    // -------------------------------------------------------------------------
 
     // Widget para mostrar y controlar capas en la vista.
     var layerList = new LayerList({
@@ -92,6 +128,10 @@ function crearMapa(apiKey) {
       view: vista
     });
     vista.ui.add(searchWidget, "top-right");
+
+    // -------------------------------------------------------------------------
+    // 4. Load tourist locations
+    // -------------------------------------------------------------------------
 
     // Agregamos los puntos de lugares desde el modulo de datos.
     agregarLugares(capaLugares, Graphic, lugares);
