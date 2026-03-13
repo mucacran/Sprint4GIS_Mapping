@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CSE310 - Beginner GIS Map (Guayaquil)</title>
 
-    <!-- ArcGIS JavaScript API styles (official CDN) -->
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.31/esri/themes/light/main.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSE310 - Beginner GIS Map (Guayaquil)</title>
 
-    <!-- Project styles -->
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    <!-- This is the container where the ArcGIS map will be drawn -->
-    <div id="viewDiv"></div>
+  <!-- ArcGIS JavaScript API styles (official CDN) -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css" />
 
-    <!-- ArcGIS JavaScript API (official CDN) -->
-    <script src="https://js.arcgis.com/4.31/"></script>
+  <!-- Project styles -->
+  <link rel="stylesheet" href="css/main.css" />
+</head>
 
-    <!-- Script principal ES Module (importa los demas archivos) -->
-    <script type="module" src="js/main.js"></script>
-  </body>
+<body>
+
+  <div id="filterBar">
+    <button class="filter-btn active" data-region="All">All</button>
+    <button class="filter-btn" data-region="Costa">Coast</button>
+    <button class="filter-btn" data-region="Sierra">Andes</button>
+    <button class="filter-btn" data-region="Amazonía">Amazon</button>
+    <button class="filter-btn" data-region="Insular">Galapagos</button>
+  </div>
+
+  <!-- This is the container where the ArcGIS map will be drawn -->
+  <div id="viewDiv"></div>
+
+  <!-- ArcGIS JavaScript API (official CDN) -->
+  <script src="https://js.arcgis.com/4.31/"></script>
+
+  <!-- Script principal ES Module (importa los demas archivos) -->
+  <script type="module" src="js/main.js"></script>
+</body>
+
 </html>

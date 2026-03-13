@@ -1,6 +1,7 @@
 import { cargarApiKey } from "./api-key.js";
 import { lugares } from "./lugares.js";
 import { agregarLugares } from "./lugares-layer.js";
+import { filtrarPorRegion } from "./filtrar.js";
 
 // Archivo principal con imports ES Modules.
 // main.js coordina el flujo y los demas archivos se enfocan en una sola tarea.
@@ -16,6 +17,20 @@ function mostrarError(mensaje) {
   const contenedor = document.getElementById(MAP_CONTAINER_ID);
   contenedor.innerHTML =
     "<p style='padding:16px;font-family:Arial,sans-serif;'>" + mensaje + "</p>";
+}
+
+function conectarBotonesFiltro(capaLugares, Graphic) {
+  var botones = document.querySelectorAll("#filterBar button");
+
+  botones.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var region = boton.dataset.region || "All";
+      var filtrados = filtrarPorRegion(lugares, region);
+
+      capaLugares.removeAll();
+      agregarLugares(capaLugares, Graphic, filtrados);
+    });
+  });
 }
 
 // Crea y muestra el mapa usando el patron clasico de ArcGIS (require).
@@ -65,6 +80,9 @@ function crearMapa(apiKey) {
 
     // Agregamos los puntos de lugares desde el modulo de datos.
     agregarLugares(capaLugares, Graphic, lugares);
+
+    // Conectamos la barra de filtros con la capa de lugares.
+    conectarBotonesFiltro(capaLugares, Graphic);
 
     // Variable util para probar cosas desde la consola del navegador.
     window.view = vista;
