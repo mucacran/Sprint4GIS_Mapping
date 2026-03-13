@@ -50,8 +50,9 @@ function crearMapa(apiKey) {
     "esri/Graphic",
     "esri/layers/GraphicsLayer",
     "esri/widgets/LayerList",
-    "esri/widgets/Home"
-  ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, LayerList, Home) {
+    "esri/widgets/Home",
+    "esri/widgets/Search"
+  ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, LayerList, Home, Search) {
     // Asignamos la API key para que ArcGIS cargue servicios y mapa base.
     esriConfig.apiKey = apiKey;
 
@@ -85,6 +86,12 @@ function crearMapa(apiKey) {
       view: vista
     });
     vista.ui.add(homeWidget, "top-left");
+
+    // Widget de busqueda (no funcional sin servicios adicionales, pero se muestra).
+    var searchWidget = new Search({
+      view: vista
+    });
+    vista.ui.add(searchWidget, "top-right");
 
     // Agregamos los puntos de lugares desde el modulo de datos.
     agregarLugares(capaLugares, Graphic, lugares);
