@@ -8,7 +8,7 @@ import { agregarLugares } from "./lugares-layer.js";
 // Configuracion basica del mapa.
 const MAP_CONTAINER_ID = "viewDiv";
 const MAP_CENTER_GUAYAQUIL = [-79.8891, -2.170998];
-const MAP_ZOOM = 12;
+const MAP_ZOOM = 6;
 const MAP_BASEMAP = "streets-navigation-vector";
 
 // Muestra un mensaje de error dentro del contenedor del mapa.
@@ -56,6 +56,12 @@ function crearMapa(apiKey) {
       view: vista
     });
     vista.ui.add(layerList, "top-right");
+
+    // Widget para volver a la vista inicial.
+    var homeWidget = new Home({
+      view: vista
+    });
+    vista.ui.add(homeWidget, "top-left");
 
     // Agregamos los puntos de lugares desde el modulo de datos.
     agregarLugares(capaLugares, Graphic, lugares);
